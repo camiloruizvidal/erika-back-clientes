@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe, BadRequestException } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { formatearErroresValidacion } from './utils/functions/formatear-errores-validacion';
+import { Config } from './infrastructure/config/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,12 +11,12 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       forbidNonWhitelisted: true,
-      exceptionFactory: errors => {
+      exceptionFactory: (errors) => {
         const mensajesValidaciones = formatearErroresValidacion(errors);
         return new BadRequestException(mensajesValidaciones);
-      }
-    })
+      },
+    }),
   );
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(Config.puerto);
 }
 bootstrap();
