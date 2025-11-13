@@ -17,16 +17,16 @@ export class ServicioAsignadoResponseDto {
     example: 4,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  servicioOriginalId!: number;
+  @Expose({ name: 'servicioOriginalId' })
+  servicio_original_id!: number;
 
   @ApiProperty({
     description: 'Nombre del servicio copiado',
     type: String,
     example: 'Clase individual de inglés',
   })
-  @Expose()
-  nombreServicio!: string;
+  @Expose({ name: 'nombreServicio' })
+  nombre_servicio!: string;
 
   @ApiProperty({
     description: 'Valor original del servicio',
@@ -34,8 +34,8 @@ export class ServicioAsignadoResponseDto {
     example: 40000,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  valorOriginal!: number;
+  @Expose({ name: 'valorOriginal' })
+  valor_original!: number;
 
   @ApiProperty({
     description: 'Valor acordado para el cliente',
@@ -43,7 +43,7 @@ export class ServicioAsignadoResponseDto {
     example: 38000,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  valorAcordado!: number;
+  @Expose({ name: 'valorAcordado' })
+  valor_acordado!: number;
 }
 

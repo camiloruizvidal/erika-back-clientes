@@ -18,8 +18,8 @@ export class AsignacionPaqueteResponseDto {
     example: 8,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  clienteId!: number;
+  @Expose({ name: 'clienteId' })
+  cliente_id!: number;
 
   @ApiProperty({
     description: 'Identificador del paquete original',
@@ -27,16 +27,16 @@ export class AsignacionPaqueteResponseDto {
     example: 5,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  paqueteOriginalId!: number;
+  @Expose({ name: 'paqueteOriginalId' })
+  paquete_original_id!: number;
 
   @ApiProperty({
     description: 'Nombre del paquete copiado',
     type: String,
     example: 'Clases de inglés intensivas',
   })
-  @Expose()
-  nombrePaquete!: string;
+  @Expose({ name: 'nombrePaquete' })
+  nombre_paquete!: string;
 
   @ApiProperty({
     description: 'Valor original del paquete',
@@ -44,8 +44,8 @@ export class AsignacionPaqueteResponseDto {
     example: 220000,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  valorOriginal!: number;
+  @Expose({ name: 'valorOriginal' })
+  valor_original!: number;
 
   @ApiProperty({
     description: 'Valor acordado para el cliente',
@@ -53,8 +53,8 @@ export class AsignacionPaqueteResponseDto {
     example: 200000,
   })
   @Transform(({ value }) => Number(value))
-  @Expose()
-  valorAcordado!: number;
+  @Expose({ name: 'valorAcordado' })
+  valor_acordado!: number;
 
   @ApiProperty({
     description: 'Día del cobro (solo para frecuencia mensual)',
@@ -62,8 +62,8 @@ export class AsignacionPaqueteResponseDto {
     nullable: true,
     example: 15,
   })
-  @Expose()
-  diaCobro!: number | null;
+  @Expose({ name: 'diaCobro' })
+  dia_cobro!: number | null;
 
   @ApiProperty({
     description: 'Días de gracia antes de aplicar mora',
@@ -71,16 +71,16 @@ export class AsignacionPaqueteResponseDto {
     nullable: true,
     example: 4,
   })
-  @Expose()
-  diasGracia!: number | null;
+  @Expose({ name: 'diasGracia' })
+  dias_gracia!: number | null;
 
   @ApiProperty({
     description: 'Tipo de frecuencia: mensual, semanas o servicios',
     type: String,
     example: 'mensual',
   })
-  @Expose()
-  frecuenciaTipo!: string;
+  @Expose({ name: 'frecuenciaTipo' })
+  frecuencia_tipo!: string;
 
   @ApiProperty({
     description:
@@ -89,8 +89,8 @@ export class AsignacionPaqueteResponseDto {
     nullable: true,
     example: 5,
   })
-  @Expose()
-  frecuenciaValor!: number | null;
+  @Expose({ name: 'frecuenciaValor' })
+  frecuencia_valor!: number | null;
 
   @ApiProperty({
     description: 'Fecha inicial del plan',
@@ -98,8 +98,8 @@ export class AsignacionPaqueteResponseDto {
     format: 'date-time',
   })
   @Transform(({ value }) => new Date(value))
-  @Expose()
-  fechaInicio!: Date;
+  @Expose({ name: 'fechaInicio' })
+  fecha_inicio!: Date;
 
   @ApiProperty({
     description: 'Fecha final del plan, si aplica',
@@ -110,8 +110,8 @@ export class AsignacionPaqueteResponseDto {
   @Transform(({ value }) =>
     value === null || value === undefined ? null : new Date(value),
   )
-  @Expose()
-  fechaFin!: Date | null;
+  @Expose({ name: 'fechaFin' })
+  fecha_fin!: Date | null;
 
   @ApiProperty({
     description: 'Porcentaje de mora aplicado al plan',
@@ -119,8 +119,8 @@ export class AsignacionPaqueteResponseDto {
     nullable: true,
     example: 10,
   })
-  @Expose()
-  moraPorcentaje!: number | null;
+  @Expose({ name: 'moraPorcentaje' })
+  mora_porcentaje!: number | null;
 
   @ApiProperty({
     description: 'Valor fijo de mora aplicado al plan',
@@ -128,22 +128,22 @@ export class AsignacionPaqueteResponseDto {
     nullable: true,
     example: 30000,
   })
-  @Expose()
-  moraValor!: number | null;
+  @Expose({ name: 'moraValor' })
+  mora_valor!: number | null;
 
   @ApiProperty({
     description: 'Estado actual de la suscripción',
     type: String,
     example: 'activo',
   })
-  @Expose()
+  @Expose({ name: 'estado' })
   estado!: string;
 
   @ApiProperty({
     description: 'Servicios asignados al cliente',
     type: () => [ServicioAsignadoResponseDto],
   })
-  @Expose()
+  @Expose({ name: 'servicios' })
   @Type(() => ServicioAsignadoResponseDto)
   servicios!: ServicioAsignadoResponseDto[];
 }
