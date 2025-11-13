@@ -132,7 +132,7 @@ export class AsignacionesService implements IAsignacionesService {
           clienteId,
           paqueteOriginalId: paquete.id,
           nombrePaquete: paquete.nombre,
-          descripcionPaquete: paquete.descripcion ?? null,
+          descripcionPaquete: null,
           valorOriginal: paquete.valor,
           valorAcordado: valorPaquete,
           diaCobro:

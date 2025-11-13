@@ -10,9 +10,8 @@ import {
   Min,
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Expose, Transform, Type } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 import { Constantes } from '../../utils/constantes';
-import { ServicioAsignarRequestDto } from './servicio-asignar.request.dto';
 import type { FrecuenciaTipo } from '../../domain/interfaces/asignaciones.interface';
 import { TransformadoresDto } from '../utils/transformadores-dto.helper';
 import { FRECUENCIAS_VALIDAS } from './constantes/crear-asignacion-paquete.constantes';
@@ -150,12 +149,19 @@ export class CrearAsignacionPaqueteRequestDto {
   @ApiPropertyOptional({
     description:
       'Listado de servicios a copiar con sus valores acordados. Si se omite se copiarán todos los servicios del paquete con sus valores originales.',
-    type: () => [ServicioAsignarRequestDto],
+    type: [Number],
   })
   @IsOptional()
   @IsArray({ message: Constantes.PROPIEDAD_NO_PERMITIDA('servicios') })
   @ArrayMinSize(0)
-  @Type(() => ServicioAsignarRequestDto)
+  @IsInt({
+    each: true,
+    message: Constantes.PROPIEDAD_NO_PERMITIDA('servicios'),
+  })
+  @Min(1, {
+    each: true,
+    message: Constantes.VALOR_MINIMO('servicios', 1),
+  })
   @Expose({ name: 'servicios' })
-  servicios?: ServicioAsignarRequestDto[];
+  servicios?: number[];
 }

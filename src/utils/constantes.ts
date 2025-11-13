@@ -7,7 +7,7 @@ export class Constantes {
   static readonly PROPIEDAD_NO_PERMITIDA = (property: string) =>
     `${property} no es una propiedad permitida`;
   static readonly TENANT_YA_EXISTE =
-    'Ya existe un tenant registrado con ese NIT';
+    'Ya existe una empresa registrada con ese NIT';
   static readonly USUARIO_YA_EXISTE =
     'Ya existe un usuario registrado con ese correo';
   static readonly USUARIO_NO_EXISTE = 'El usuario no se encuentra registrado';
@@ -18,14 +18,14 @@ export class Constantes {
   static readonly TOKEN_SIN_CLAIMS =
     'El token no contiene la información requerida';
   static readonly CLIENTE_YA_EXISTE =
-    'Ya existe un cliente registrado con ese correo para este tenant';
+    'Ya existe un cliente registrado con ese correo para esta empresa';
   static readonly CLIENTE_DOCUMENTO_YA_EXISTE =
-    'Ya existe un cliente registrado con ese documento para este tenant';
+    'Ya existe un cliente registrado con ese documento para esta empresa';
   static readonly TIPO_DOCUMENTO_NO_ENCONTRADO =
     'El tipo de documento indicado no existe';
   static readonly CLIENTE_NO_ENCONTRADO = 'El cliente indicado no existe';
   static readonly PAQUETE_NO_ENCONTRADO =
-    'El paquete indicado no existe o no pertenece al tenant';
+    'El paquete indicado no existe o no pertenece a la empresa';
   static readonly FRECUENCIA_NO_VALIDA = 'La frecuencia indicada no es válida';
   static readonly DIA_COBRO_OBLIGATORIO =
     'Debe indicar el día de cobro para una suscripción mensual';

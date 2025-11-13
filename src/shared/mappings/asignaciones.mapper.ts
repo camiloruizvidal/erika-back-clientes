@@ -9,10 +9,14 @@ export class AsignacionesMapper {
     dto: CrearAsignacionPaqueteRequestDto,
     creadoUsuarioId: number,
   ): IAsignarPaquete {
-    const servicios: IServicioAsignar[] =
-      dto.servicios?.map((servicio) => ({
-        servicioId: servicio.id,
-      })) ?? [];
+    const servicios: IServicioAsignar[] = [];
+    if (Array.isArray(dto.servicios)) {
+      dto.servicios.forEach((servicioId) => {
+        if (typeof servicioId === 'number') {
+          servicios.push({ servicioId });
+        }
+      });
+    }
 
     return {
       paqueteId: dto.paqueteId,

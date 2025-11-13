@@ -32,10 +32,6 @@ export class PaqueteModel extends Model {
   @Column({ type: DataType.STRING(150) })
   nombre!: string;
 
-  @AllowNull(true)
-  @Column({ type: DataType.STRING(255) })
-  descripcion!: string | null;
-
   @AllowNull(false)
   @Column({
     type: DataType.DECIMAL(12, 2),
