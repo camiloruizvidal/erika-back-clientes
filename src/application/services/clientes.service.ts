@@ -122,15 +122,34 @@ export class ClientesService implements IClientesService {
 
     const total = resultado.count;
     const registros: ICliente[] = resultado.rows;
+    const totalPaginas =
+      tamanoPagina > 0 ? Math.ceil(total / tamanoPagina) : 0;
 
     return {
       meta: {
         total,
         pagina,
         tamanoPagina,
+        totalPaginas,
       },
       data: registros,
     };
+  }
+
+  public async obtenerDetalleCliente(
+    tenantId: number,
+    clienteId: number,
+  ): Promise<ICliente> {
+    const cliente = await ClienteRepository.buscarPorId(tenantId, clienteId);
+
+    if (!cliente) {
+      throw new ErrorPersonalizado(
+        HttpStatus.NOT_FOUND,
+        Constantes.CLIENTE_NO_ENCONTRADO,
+      );
+    }
+
+    return cliente;
   }
 
   private normalizarCampoOpcional(

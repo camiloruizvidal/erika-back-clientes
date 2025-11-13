@@ -74,6 +74,30 @@ export class ClientesController {
     }
   }
 
+  @Get(':clienteId')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtTenantGuard)
+  @ApiOkResponse({ type: ClienteCreadoResponseDto })
+  public async obtenerDetalle(
+    @Param('clienteId', ParseIntPipe) clienteId: number,
+    @Req() request: RequestConTenant,
+  ): Promise<ClienteCreadoResponseDto> {
+    try {
+      const tenantId = request.tenantId;
+      const cliente = await this.clientesService.obtenerDetalleCliente(
+        tenantId,
+        clienteId,
+      );
+
+      return plainToInstance(ClienteCreadoResponseDto, cliente, {
+        excludeExtraneousValues: true,
+      });
+    } catch (error) {
+      Logger.error({ error: JSON.stringify(error) });
+      this.manejadorError.resolverErrorApi(error);
+    }
+  }
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtTenantGuard)

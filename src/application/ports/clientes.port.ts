@@ -12,4 +12,8 @@ export interface IClientesService {
     pagina: number,
     tamanoPagina: number,
   ): Promise<IPaginado<ICliente>>;
+  obtenerDetalleCliente(
+    tenantId: number,
+    clienteId: number,
+  ): Promise<ICliente>;
 }
