@@ -3,6 +3,7 @@ import {
   Controller,
   HttpCode,
   HttpStatus,
+  Logger,
   Param,
   ParseIntPipe,
   Post,
@@ -55,6 +56,7 @@ export class ClientesController {
         excludeExtraneousValues: true,
       });
     } catch (error) {
+      Logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
@@ -83,6 +85,7 @@ export class ClientesController {
         excludeExtraneousValues: true,
       });
     } catch (error) {
+      Logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
