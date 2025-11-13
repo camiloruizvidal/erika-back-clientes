@@ -5,8 +5,13 @@ import { ServicioModel } from '../models/servicio.model';
 export class PaqueteServicioRepository {
   static async obtenerServiciosPorPaquete(paqueteId: number): Promise<
     Array<{
-      servicio: ServicioModel;
-      relacion: PaqueteServicioModel;
+      servicio: {
+        id: number;
+        nombre: string;
+        valor: number;
+        tenantId: number;
+      };
+      [clave: string]: unknown;
     }>
   > {
     const relaciones = await PaqueteServicioModel.findAll({
@@ -20,9 +25,16 @@ export class PaqueteServicioRepository {
       ],
     });
 
-    return relaciones.map((relacion) => ({
-      servicio: Transformador.extraerDataValues(relacion.servicio),
-      relacion: Transformador.extraerDataValues(relacion),
-    }));
+    return Transformador.extraerDataValues<
+      Array<{
+        servicio: {
+          id: number;
+          nombre: string;
+          valor: number;
+          tenantId: number;
+        };
+        [clave: string]: unknown;
+      }>
+    >(relaciones);
   }
 }

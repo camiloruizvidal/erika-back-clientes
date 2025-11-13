@@ -37,6 +37,8 @@ export class Constantes {
     'El servicio indicado no hace parte del paquete original';
   static readonly ASIGNACION_YA_EXISTE =
     'El cliente ya tiene un paquete activo con el mismo paquete original';
+  static readonly ASIGNACION_NO_ENCONTRADA: string =
+    'No se encontró una asignación activa para este cliente y paquete';
   static readonly SERVICIO_DUPLICADO_EN_ASIGNACION =
     'No se permiten servicios duplicados dentro de la asignación';
   static readonly LONGITUD_MINIMA = (campo: string, minimo: number) =>

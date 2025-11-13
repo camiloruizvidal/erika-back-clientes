@@ -1,4 +1,3 @@
-import { Transaction } from 'sequelize';
 import { Transformador } from '../../utils/transformador.util';
 import { IClientePaquete } from '../interfaces/cliente-paquete.interface';
 import { ClientePaqueteModel } from '../models/cliente-paquete.model';
@@ -39,9 +38,34 @@ export class ClientePaqueteRepository {
 
   static async crearClientePaquete(
     datos: ICrearClientePaquete,
-    transaction: Transaction,
   ): Promise<IClientePaquete> {
-    const clientePaquete = await ClientePaqueteModel.create(
+    const clientePaquete = await ClientePaqueteModel.create({
+      tenantId: datos.tenantId,
+      clienteId: datos.clienteId,
+      paqueteOriginalId: datos.paqueteOriginalId,
+      nombrePaquete: datos.nombrePaquete,
+      descripcionPaquete: datos.descripcionPaquete,
+      valorOriginal: datos.valorOriginal,
+      valorAcordado: datos.valorAcordado,
+      diaCobro: datos.diaCobro,
+      diasGracia: datos.diasGracia,
+      frecuenciaTipo: datos.frecuenciaTipo,
+      frecuenciaValor: datos.frecuenciaValor,
+      fechaInicio: datos.fechaInicio,
+      fechaFin: datos.fechaFin,
+      moraPorcentaje: datos.moraPorcentaje,
+      moraValor: datos.moraValor,
+      estado: datos.estado,
+      creadoUsuarioId: datos.creadoUsuarioId,
+    });
+    return Transformador.extraerDataValues(clientePaquete);
+  }
+
+  static async actualizarClientePaquete(
+    id: number,
+    datos: ICrearClientePaquete,
+  ): Promise<IClientePaquete> {
+    await ClientePaqueteModel.update(
       {
         tenantId: datos.tenantId,
         clienteId: datos.clienteId,
@@ -61,8 +85,12 @@ export class ClientePaqueteRepository {
         estado: datos.estado,
         creadoUsuarioId: datos.creadoUsuarioId,
       },
-      { transaction },
+      {
+        where: { id },
+      },
     );
-    return Transformador.extraerDataValues(clientePaquete);
+
+    const clientePaqueteActualizado = await ClientePaqueteModel.findByPk(id);
+    return Transformador.extraerDataValues(clientePaqueteActualizado);
   }
 }

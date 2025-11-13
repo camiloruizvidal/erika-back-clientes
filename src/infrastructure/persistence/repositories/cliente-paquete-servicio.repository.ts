@@ -1,4 +1,4 @@
-import { Transaction } from 'sequelize';
+import { Op } from 'sequelize';
 import { Transformador } from '../../utils/transformador.util';
 import { IClientePaqueteServicio } from '../interfaces/cliente-paquete-servicio.interface';
 import { ClientePaqueteServicioModel } from '../models/cliente-paquete-servicio.model';
@@ -15,7 +15,6 @@ interface ICrearServicioAsignado {
 export class ClientePaqueteServicioRepository {
   static async crearServiciosAsignados(
     servicios: ICrearServicioAsignado[],
-    transaction: Transaction,
   ): Promise<IClientePaqueteServicio[]> {
     const registros = servicios.map((servicio) => ({
       tenantId: servicio.tenantId,
@@ -29,11 +28,12 @@ export class ClientePaqueteServicioRepository {
     const registrosCreados = await ClientePaqueteServicioModel.bulkCreate(
       registros as Array<Partial<ClientePaqueteServicioModel>>,
       {
-        transaction,
         returning: true,
       },
     );
-    return Transformador.extraerDataValues(registrosCreados);
+    return Transformador.extraerDataValues<IClientePaqueteServicio[]>(
+      registrosCreados,
+    );
   }
 
   static async obtenerServiciosPorClientePaquete(
@@ -44,6 +44,24 @@ export class ClientePaqueteServicioRepository {
         clientePaqueteId,
       },
     });
-    return Transformador.extraerDataValues(servicios);
+    return Transformador.extraerDataValues<IClientePaqueteServicio[]>(servicios);
+  }
+
+  static async eliminarServiciosAsignados(
+    clientePaqueteId: number,
+    serviciosOriginalesIds: number[],
+  ): Promise<void> {
+    if (serviciosOriginalesIds.length === 0) {
+      return;
+    }
+
+    await ClientePaqueteServicioModel.destroy({
+      where: {
+        clientePaqueteId,
+        servicioOriginalId: {
+          [Op.in]: serviciosOriginalesIds,
+        },
+      },
+    });
   }
 }
