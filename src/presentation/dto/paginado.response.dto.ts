@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
+import { ClienteListadoResponseDto } from './cliente-listado.response.dto';
 
 export class MetaPaginadoResponseDto {
   @ApiProperty({ description: 'Total de registros disponibles', type: Number })
@@ -30,4 +31,11 @@ export class PaginadoResponseDto<T> {
   @ApiProperty({ isArray: true, type: () => Object })
   @Expose({ name: 'data' })
   data!: T[];
+}
+
+export class ClientesPaginadosResponseDto extends PaginadoResponseDto<ClienteListadoResponseDto> {
+  @ApiProperty({ isArray: true, type: () => ClienteListadoResponseDto })
+  @Expose({ name: 'data' })
+  @Type(() => ClienteListadoResponseDto)
+  declare data: ClienteListadoResponseDto[];
 }

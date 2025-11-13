@@ -4,6 +4,8 @@ import {
   ICrearCliente,
   IClienteCreado,
 } from '../../domain/interfaces/clientes.interface';
+import { IPaginado } from '../../shared/interfaces/paginado.interface';
+import { ICliente } from '../../infrastructure/persistence/interfaces/cliente.interface';
 import { ClienteRepository } from '../../infrastructure/persistence/repositories/cliente.repository';
 import { TipoDocumentoRepository } from '../../infrastructure/persistence/repositories/tipo-documento.repository';
 import { ErrorPersonalizado } from '../../utils/error-personalizado/error-personalizado';
@@ -102,6 +104,32 @@ export class ClientesService implements IClientesService {
       fechaNacimiento: clienteCreado.fechaNacimiento,
       direccion: clienteCreado.direccion,
       activo: clienteCreado.activo,
+    };
+  }
+
+  public async listarClientes(
+    tenantId: number,
+    pagina: number,
+    tamanoPagina: number,
+  ): Promise<IPaginado<ICliente>> {
+    const offset = (pagina - 1) * tamanoPagina;
+
+    const resultado = await ClienteRepository.listarPorTenant(
+      tenantId,
+      offset,
+      tamanoPagina,
+    );
+
+    const total = resultado.count;
+    const registros: ICliente[] = resultado.rows;
+
+    return {
+      meta: {
+        total,
+        pagina,
+        tamanoPagina,
+      },
+      data: registros,
     };
   }
 

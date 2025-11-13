@@ -2,6 +2,7 @@ import { Transformador } from '../../utils/transformador.util';
 import { ICrearCliente } from '../../../domain/interfaces/clientes.interface';
 import { ClienteModel } from '../models/cliente.model';
 import { ICliente } from '../interfaces/cliente.interface';
+import { IResultadoFindAndCount } from '../../../shared/interfaces/sequelize-find.interface';
 
 export class ClienteRepository {
   static async buscarPorCorreo(
@@ -68,5 +69,24 @@ export class ClienteRepository {
       activo: datos.activo ?? true,
     });
     return Transformador.extraerDataValues(cliente);
+  }
+
+  static async listarPorTenant(
+    tenantId: number,
+    offset: number,
+    limit: number,
+  ): Promise<IResultadoFindAndCount<ICliente>> {
+    const resultado = await ClienteModel.findAndCountAll({
+      where: {
+        tenantId,
+      },
+      offset,
+      limit,
+      order: [['created_at', 'DESC']],
+    });
+
+    return Transformador.extraerDataValues<IResultadoFindAndCount<ICliente>>(
+      resultado,
+    );
   }
 }

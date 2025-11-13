@@ -1,16 +1,23 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Logger,
   Param,
   ParseIntPipe,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiBody, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { Request } from 'express';
 import { plainToInstance } from 'class-transformer';
 import { CrearClienteRequestDto } from '../dto/crear-cliente.request.dto';
@@ -23,6 +30,8 @@ import { CrearAsignacionPaqueteRequestDto } from '../dto/crear-asignacion-paquet
 import { AsignacionPaqueteResponseDto } from '../dto/asignacion-paquete.response.dto';
 import { AsignacionesMapper } from '../../shared/mappings/asignaciones.mapper';
 import { AsignacionesService } from '../../application/services/asignaciones.service';
+import { PaginadoRequestDto } from '../dto/paginado.request.dto';
+import { ClientesPaginadosResponseDto } from '../dto/paginado.response.dto';
 
 interface RequestConTenant extends Request {
   tenantId: number;
@@ -37,6 +46,33 @@ export class ClientesController {
     private readonly asignacionesService: AsignacionesService,
     private readonly manejadorError: ManejadorError,
   ) {}
+
+  @Get()
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtTenantGuard)
+  @ApiOkResponse({ type: ClientesPaginadosResponseDto })
+  public async listar(
+    @Query() query: PaginadoRequestDto,
+    @Req() request: RequestConTenant,
+  ): Promise<ClientesPaginadosResponseDto> {
+    try {
+      const tenantId = request.tenantId;
+      const pagina = query.pagina ?? 1;
+      const tamanoPagina = query.tamanoPagina ?? 10;
+      const resultado = await this.clientesService.listarClientes(
+        tenantId,
+        pagina,
+        tamanoPagina,
+      );
+
+      return plainToInstance(ClientesPaginadosResponseDto, resultado, {
+        excludeExtraneousValues: true,
+      });
+    } catch (error) {
+      Logger.error({ error: JSON.stringify(error) });
+      this.manejadorError.resolverErrorApi(error);
+    }
+  }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
