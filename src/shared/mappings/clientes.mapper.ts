@@ -1,8 +1,11 @@
-import { CrearClienteDto } from '../../presentation/dto/crear-cliente.dto';
+import { CrearClienteRequestDto } from '../../presentation/dto/crear-cliente.request.dto';
 import { ICrearCliente } from '../../domain/interfaces/clientes.interface';
 
 export class ClientesMapper {
-  static toInterface(dto: CrearClienteDto, tenantId: number): ICrearCliente {
+  static toInterface(
+    dto: CrearClienteRequestDto,
+    tenantId: number,
+  ): ICrearCliente {
     return {
       tenantId,
       primerNombre: dto.primerNombre.trim(),

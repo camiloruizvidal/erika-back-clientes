@@ -1,7 +1,8 @@
 import { Expose, Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { TransformadoresDto } from '../utils/transformadores-dto.helper';
 
-export class ClienteCreadoDto {
+export class ClienteCreadoResponseDto {
   @ApiProperty({
     description: 'Identificador generado para el cliente',
     type: Number,
@@ -16,8 +17,8 @@ export class ClienteCreadoDto {
     type: String,
     example: 'Juan',
   })
-  @Expose()
-  primerNombre!: string;
+  @Expose({ name: 'primerNombre' })
+  primer_nombre!: string;
 
   @ApiProperty({
     description: 'Segundo nombre del cliente',
@@ -25,16 +26,16 @@ export class ClienteCreadoDto {
     nullable: true,
     example: 'Carlos',
   })
-  @Expose()
-  segundoNombre!: string | null;
+  @Expose({ name: 'segundoNombre' })
+  segundo_nombre!: string | null;
 
   @ApiProperty({
     description: 'Primer apellido del cliente',
     type: String,
     example: 'Pérez',
   })
-  @Expose()
-  primerApellido!: string;
+  @Expose({ name: 'primerApellido' })
+  primer_apellido!: string;
 
   @ApiProperty({
     description: 'Segundo apellido del cliente',
@@ -42,25 +43,27 @@ export class ClienteCreadoDto {
     nullable: true,
     example: 'Gómez',
   })
-  @Expose()
-  segundoApellido!: string | null;
+  @Expose({ name: 'segundoApellido' })
+  segundo_apellido!: string | null;
 
   @ApiProperty({
     description: 'Nombre completo del cliente',
     type: String,
     example: 'Juan Carlos Pérez Gómez',
   })
-  @Expose()
-  nombreCompleto!: string;
+  @Expose({ name: 'nombreCompleto' })
+  nombre_completo!: string;
 
   @ApiProperty({
     description: 'Identificador del tipo de documento',
     type: Number,
     example: 1,
   })
-  @Transform(({ value }) => Number(value))
-  @Expose()
-  tipoDocumentoId!: number;
+  @Transform(({ value }) =>
+    value === null || value === undefined ? null : Number(value),
+  )
+  @Expose({ name: 'tipoDocumentoId' })
+  tipo_documento_id!: number | null;
 
   @ApiProperty({
     description: 'Correo electrónico del cliente',
@@ -95,11 +98,9 @@ export class ClienteCreadoDto {
     nullable: true,
     example: '1990-05-20T00:00:00.000Z',
   })
-  @Transform(({ value }) =>
-    value === null || value === undefined ? null : new Date(value),
-  )
-  @Expose()
-  fechaNacimiento!: Date | null;
+  @Transform(({ value }) => TransformadoresDto.transformarFecha(value))
+  @Expose({ name: 'fechaNacimiento' })
+  fecha_nacimiento!: Date | null;
 
   @ApiProperty({
     description: 'Dirección física registrada',

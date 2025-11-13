@@ -1,41 +1,58 @@
-import { ClienteModel } from '../models/cliente.model';
+import { Transformador } from '../../utils/transformador.util';
 import { ICrearCliente } from '../../../domain/interfaces/clientes.interface';
+import { ClienteModel } from '../models/cliente.model';
+import { ICliente } from '../interfaces/cliente.interface';
 
 export class ClienteRepository {
   static async buscarPorCorreo(
     tenantId: number,
     correo: string,
-  ): Promise<ClienteModel | null> {
-    return ClienteModel.findOne({
+  ): Promise<ICliente | null> {
+    const cliente = await ClienteModel.findOne({
       where: {
         tenantId,
         correo,
       },
     });
+    return Transformador.extraerDataValues(cliente);
+  }
+
+  static async buscarPorId(
+    tenantId: number,
+    clienteId: number,
+  ): Promise<ICliente | null> {
+    const cliente = await ClienteModel.findOne({
+      where: {
+        tenantId,
+        id: clienteId,
+      },
+    });
+    return Transformador.extraerDataValues(cliente);
   }
 
   static async buscarPorDocumento(
     tenantId: number,
     tipoDocumentoId: number,
     identificacion: string | null,
-  ): Promise<ClienteModel | null> {
+  ): Promise<ICliente | null> {
     if (!identificacion) {
       return null;
     }
 
-    return ClienteModel.findOne({
+    const cliente = await ClienteModel.findOne({
       where: {
         tenantId,
         tipoDocumentoId,
         identificacion,
       },
     });
+    return Transformador.extraerDataValues(cliente);
   }
 
   static async crearCliente(
     datos: ICrearCliente & { nombreCompleto: string },
-  ): Promise<ClienteModel> {
-    return ClienteModel.create({
+  ): Promise<ICliente> {
+    const cliente = await ClienteModel.create({
       tenantId: datos.tenantId,
       tipoDocumentoId: datos.tipoDocumentoId,
       primerNombre: datos.primerNombre,
@@ -50,5 +67,6 @@ export class ClienteRepository {
       direccion: datos.direccion ?? null,
       activo: datos.activo ?? true,
     });
+    return Transformador.extraerDataValues(cliente);
   }
 }

@@ -86,20 +86,21 @@ export class ClientesService implements IClientesService {
       fechaNacimiento,
       activo: payload.activo ?? true,
     });
+    console.log({ clienteCreado });
 
     return {
       id: clienteCreado.id,
       primerNombre: clienteCreado.primerNombre,
-      segundoNombre: clienteCreado.segundoNombre ?? null,
+      segundoNombre: clienteCreado.segundoNombre,
       primerApellido: clienteCreado.primerApellido,
-      segundoApellido: clienteCreado.segundoApellido ?? null,
+      segundoApellido: clienteCreado.segundoApellido,
       nombreCompleto: clienteCreado.nombreCompleto,
       tipoDocumentoId: clienteCreado.tipoDocumentoId,
       correo: clienteCreado.correo,
-      telefono: clienteCreado.telefono ?? null,
-      identificacion: clienteCreado.identificacion ?? null,
-      fechaNacimiento: clienteCreado.fechaNacimiento ?? null,
-      direccion: clienteCreado.direccion ?? null,
+      telefono: clienteCreado.telefono,
+      identificacion: clienteCreado.identificacion,
+      fechaNacimiento: clienteCreado.fechaNacimiento,
+      direccion: clienteCreado.direccion,
       activo: clienteCreado.activo,
     };
   }
