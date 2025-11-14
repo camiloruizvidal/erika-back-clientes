@@ -3,6 +3,7 @@ import { ICrearCliente } from '../../../domain/interfaces/clientes.interface';
 import { ClienteModel } from '../models/cliente.model';
 import { ICliente } from '../interfaces/cliente.interface';
 import { IResultadoFindAndCount } from '../../../shared/interfaces/sequelize-find.interface';
+import { Op } from 'sequelize';
 
 export class ClienteRepository {
   static async buscarPorCorreo(
@@ -75,11 +76,26 @@ export class ClienteRepository {
     tenantId: number,
     offset: number,
     limit: number,
+    filtro?: string,
   ): Promise<IResultadoFindAndCount<ICliente>> {
+    const whereClause: any = {
+      tenantId,
+    };
+
+    if (filtro && filtro.trim().length > 0) {
+      const filtroBusqueda = `%${filtro.trim()}%`;
+      whereClause[Op.or] = [
+        { primerNombre: { [Op.iLike]: filtroBusqueda } },
+        { segundoNombre: { [Op.iLike]: filtroBusqueda } },
+        { primerApellido: { [Op.iLike]: filtroBusqueda } },
+        { segundoApellido: { [Op.iLike]: filtroBusqueda } },
+        { nombreCompleto: { [Op.iLike]: filtroBusqueda } },
+        { identificacion: { [Op.iLike]: filtroBusqueda } },
+      ];
+    }
+
     const resultado = await ClienteModel.findAndCountAll({
-      where: {
-        tenantId,
-      },
+      where: whereClause,
       offset,
       limit,
       order: [['created_at', 'DESC']],

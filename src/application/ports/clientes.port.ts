@@ -11,9 +11,7 @@ export interface IClientesService {
     tenantId: number,
     pagina: number,
     tamanoPagina: number,
+    filtro?: string,
   ): Promise<IPaginado<ICliente>>;
-  obtenerDetalleCliente(
-    tenantId: number,
-    clienteId: number,
-  ): Promise<ICliente>;
+  obtenerDetalleCliente(tenantId: number, clienteId: number): Promise<ICliente>;
 }

@@ -30,7 +30,7 @@ import { CrearAsignacionPaqueteRequestDto } from '../dto/crear-asignacion-paquet
 import { AsignacionPaqueteResponseDto } from '../dto/asignacion-paquete.response.dto';
 import { AsignacionesMapper } from '../../shared/mappings/asignaciones.mapper';
 import { AsignacionesService } from '../../application/services/asignaciones.service';
-import { PaginadoRequestDto } from '../dto/paginado.request.dto';
+import { PaginadoClientesRequestDto } from '../dto/paginado-clientes.request.dto';
 import { ClientesPaginadosResponseDto } from '../dto/paginado.response.dto';
 
 interface RequestConTenant extends Request {
@@ -52,17 +52,19 @@ export class ClientesController {
   @UseGuards(JwtTenantGuard)
   @ApiOkResponse({ type: ClientesPaginadosResponseDto })
   public async listar(
-    @Query() query: PaginadoRequestDto,
+    @Query() query: PaginadoClientesRequestDto,
     @Req() request: RequestConTenant,
   ): Promise<ClientesPaginadosResponseDto> {
     try {
       const tenantId = request.tenantId;
       const pagina = query.pagina ?? 1;
       const tamanoPagina = query.tamanoPagina ?? 10;
+      const filtro = query.filtro?.trim() || undefined;
       const resultado = await this.clientesService.listarClientes(
         tenantId,
         pagina,
         tamanoPagina,
+        filtro,
       );
 
       return plainToInstance(ClientesPaginadosResponseDto, resultado, {

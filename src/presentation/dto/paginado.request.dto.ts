@@ -1,9 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsInt,
-  IsOptional,
-  Min,
-} from 'class-validator';
+import { IsInt, IsOptional, Min } from 'class-validator';
 import { Expose, Transform } from 'class-transformer';
 import { TransformadoresDto } from '../utils/transformadores-dto.helper';
 
@@ -32,4 +28,3 @@ export class PaginadoRequestDto {
   @Expose({ name: 'tamano_pagina' })
   tamanoPagina?: number;
 }
-

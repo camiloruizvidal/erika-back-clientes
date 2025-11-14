@@ -111,6 +111,7 @@ export class ClientesService implements IClientesService {
     tenantId: number,
     pagina: number,
     tamanoPagina: number,
+    filtro?: string,
   ): Promise<IPaginado<ICliente>> {
     const offset = (pagina - 1) * tamanoPagina;
 
@@ -118,12 +119,12 @@ export class ClientesService implements IClientesService {
       tenantId,
       offset,
       tamanoPagina,
+      filtro,
     );
 
     const total = resultado.count;
     const registros: ICliente[] = resultado.rows;
-    const totalPaginas =
-      tamanoPagina > 0 ? Math.ceil(total / tamanoPagina) : 0;
+    const totalPaginas = tamanoPagina > 0 ? Math.ceil(total / tamanoPagina) : 0;
 
     return {
       meta: {
