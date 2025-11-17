@@ -2,6 +2,7 @@ export enum EFrecuenciaTipo {
   MENSUAL = 'mensual',
   SEMANAS = 'semanas',
   SERVICIOS = 'servicios',
+  ANUAL = 'anual',
 }
 
 // Creamos un tipo literal a partir del enum para restringir a los valores del enum.
