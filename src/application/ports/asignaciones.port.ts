@@ -9,4 +9,8 @@ export interface IAsignacionesService {
     clienteId: number,
     payload: IAsignarPaquete,
   ): Promise<IAsignacionCreada>;
+  obtenerPaquetesPorCliente(
+    tenantId: number,
+    clienteId: number,
+  ): Promise<IAsignacionCreada[]>;
 }

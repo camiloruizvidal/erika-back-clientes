@@ -123,6 +123,33 @@ export class ClientesController {
     }
   }
 
+  @Get(':clienteId/packages')
+  @HttpCode(HttpStatus.OK)
+  @UseGuards(JwtTenantGuard)
+  @ApiOkResponse({ type: [AsignacionPaqueteResponseDto] })
+  public async obtenerPaquetes(
+    @Param('clienteId', ParseIntPipe) clienteId: number,
+    @Req() request: RequestConTenant,
+  ): Promise<AsignacionPaqueteResponseDto[]> {
+    try {
+      const tenantId = request.tenantId;
+      const asignaciones =
+        await this.asignacionesService.obtenerPaquetesPorCliente(
+          tenantId,
+          clienteId,
+        );
+
+      return asignaciones.map((asignacion) =>
+        plainToInstance(AsignacionPaqueteResponseDto, asignacion, {
+          excludeExtraneousValues: true,
+        }),
+      );
+    } catch (error) {
+      Logger.error({ error: JSON.stringify(error) });
+      this.manejadorError.resolverErrorApi(error);
+    }
+  }
+
   @Post(':clienteId/packages')
   @HttpCode(HttpStatus.CREATED)
   @UseGuards(JwtTenantGuard)

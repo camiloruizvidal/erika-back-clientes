@@ -291,16 +291,17 @@ export class AsignacionesService implements IAsignacionesService {
       );
     }
 
-    const clientePaqueteExistente =
-      await ClientePaqueteRepository.buscarPorClienteYPaquete(
+    const clientePaqueteActivo =
+      await ClientePaqueteRepository.buscarActivoPorClienteYPaquete(
+        tenantId,
         clienteId,
         paquete.id,
       );
 
-    if (clientePaqueteExistente) {
+    if (clientePaqueteActivo) {
       throw new ErrorPersonalizado(
-        HttpStatus.NOT_FOUND,
-        Constantes.ASIGNACION_NO_ENCONTRADA,
+        HttpStatus.CONFLICT,
+        Constantes.ASIGNACION_YA_EXISTE,
       );
     }
 
@@ -346,5 +347,53 @@ export class AsignacionesService implements IAsignacionesService {
     });
 
     return mapa;
+  }
+
+  public async obtenerPaquetesPorCliente(
+    tenantId: number,
+    clienteId: number,
+  ): Promise<IAsignacionCreada[]> {
+    const clientePaquetes =
+      await ClientePaqueteRepository.buscarPorCliente(tenantId, clienteId);
+
+    const asignaciones: IAsignacionCreada[] = [];
+
+    for (const clientePaquete of clientePaquetes) {
+      const servicios =
+        await ClientePaqueteServicioRepository.obtenerServiciosPorClientePaquete(
+          clientePaquete.id,
+        );
+
+      const serviciosAsignados: IServicioAsignado[] = servicios.map(
+        (servicio) => ({
+          id: servicio.id,
+          servicioOriginalId: servicio.servicioOriginalId,
+          nombreServicio: servicio.nombreServicio,
+          valorOriginal: servicio.valorOriginal,
+          valorAcordado: servicio.valorAcordado,
+        }),
+      );
+
+      asignaciones.push({
+        id: clientePaquete.id,
+        clienteId: clientePaquete.clienteId,
+        paqueteOriginalId: clientePaquete.paqueteOriginalId,
+        nombrePaquete: clientePaquete.nombrePaquete,
+        valorOriginal: clientePaquete.valorOriginal,
+        valorAcordado: clientePaquete.valorAcordado,
+        diaCobro: clientePaquete.diaCobro ?? null,
+        diasGracia: clientePaquete.diasGracia ?? null,
+        frecuenciaTipo: clientePaquete.frecuenciaTipo as FrecuenciaTipo,
+        frecuenciaValor: clientePaquete.frecuenciaValor ?? null,
+        fechaInicio: clientePaquete.fechaInicio,
+        fechaFin: clientePaquete.fechaFin ?? null,
+        moraPorcentaje: clientePaquete.moraPorcentaje ?? null,
+        moraValor: clientePaquete.moraValor ?? null,
+        estado: clientePaquete.estado,
+        servicios: serviciosAsignados,
+      });
+    }
+
+    return asignaciones;
   }
 }

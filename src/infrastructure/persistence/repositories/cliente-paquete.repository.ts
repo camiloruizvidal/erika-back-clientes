@@ -36,6 +36,22 @@ export class ClientePaqueteRepository {
     return Transformador.extraerDataValues(clientePaquete);
   }
 
+  static async buscarActivoPorClienteYPaquete(
+    tenantId: number,
+    clienteId: number,
+    paqueteOriginalId: number,
+  ): Promise<IClientePaquete | null> {
+    const clientePaquete = await ClientePaqueteModel.findOne({
+      where: {
+        tenantId,
+        clienteId,
+        paqueteOriginalId,
+        estado: 'activo',
+      },
+    });
+    return Transformador.extraerDataValues(clientePaquete);
+  }
+
   static async crearClientePaquete(
     datos: ICrearClientePaquete,
   ): Promise<IClientePaquete> {
@@ -92,5 +108,19 @@ export class ClientePaqueteRepository {
 
     const clientePaqueteActualizado = await ClientePaqueteModel.findByPk(id);
     return Transformador.extraerDataValues(clientePaqueteActualizado);
+  }
+
+  static async buscarPorCliente(
+    tenantId: number,
+    clienteId: number,
+  ): Promise<IClientePaquete[]> {
+    const clientePaquetes = await ClientePaqueteModel.findAll({
+      where: {
+        tenantId,
+        clienteId,
+      },
+      order: [['fecha_inicio', 'DESC']],
+    });
+    return Transformador.extraerDataValues<IClientePaquete[]>(clientePaquetes);
   }
 }
