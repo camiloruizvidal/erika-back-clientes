@@ -1,11 +1,5 @@
-export enum EFrecuenciaTipo {
-  MENSUAL = 'mensual',
-  SEMANAS = 'semanas',
-  SERVICIOS = 'servicios',
-  ANUAL = 'anual',
-}
+import { EFrecuenciaTipo } from '../enums/frecuencia-tipo.enum';
 
-// Creamos un tipo literal a partir del enum para restringir a los valores del enum.
 export type FrecuenciaTipo = `${EFrecuenciaTipo}`;
 
 export type ICrearAsignacionPaqueteFrequencies = FrecuenciaTipo[];

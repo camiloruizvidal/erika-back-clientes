@@ -6,8 +6,8 @@ import {
   IServicioAsignado,
   IServicioAsignar,
   FrecuenciaTipo,
-  EFrecuenciaTipo,
 } from '../../domain/interfaces/asignaciones.interface';
+import { EFrecuenciaTipo } from '../../domain/enums/frecuencia-tipo.enum';
 import { ClienteRepository } from '../../infrastructure/persistence/repositories/cliente.repository';
 import { PaqueteRepository } from '../../infrastructure/persistence/repositories/paquete.repository';
 import { PaqueteServicioRepository } from '../../infrastructure/persistence/repositories/paquete-servicio.repository';
