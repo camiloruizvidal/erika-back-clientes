@@ -27,20 +27,20 @@ export class ClientePaqueteServicioModel extends Model {
 
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'tenant_id' })
-  tenantId!: number;
+  declare tenantId: number;
 
   @ForeignKey(() => ClientePaqueteModel)
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'cliente_paquete_id' })
-  clientePaqueteId!: number;
+  declare clientePaqueteId: number;
 
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'servicio_original_id' })
-  servicioOriginalId!: number;
+  declare servicioOriginalId: number;
 
   @AllowNull(false)
   @Column({ type: DataType.STRING(150), field: 'nombre_servicio' })
-  nombreServicio!: string;
+  declare nombreServicio: string;
 
   @AllowNull(false)
   @Column({
@@ -51,7 +51,7 @@ export class ClientePaqueteServicioModel extends Model {
       return valor === null || valor === undefined ? 0 : Number(valor);
     },
   })
-  valorOriginal!: number;
+  declare valorOriginal: number;
 
   @AllowNull(false)
   @Column({
@@ -62,7 +62,7 @@ export class ClientePaqueteServicioModel extends Model {
       return valor === null || valor === undefined ? 0 : Number(valor);
     },
   })
-  valorAcordado!: number;
+  declare valorAcordado: number;
 
   @BelongsTo(() => ClientePaqueteModel, 'cliente_paquete_id')
   clientePaquete?: ClientePaqueteModel;

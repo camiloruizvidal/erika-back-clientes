@@ -24,11 +24,11 @@ export class ServicioModel extends Model {
 
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'tenant_id' })
-  tenantId!: number;
+  declare tenantId: number;
 
   @AllowNull(false)
   @Column({ type: DataType.STRING(150) })
-  nombre!: string;
+  declare nombre: string;
 
   @AllowNull(false)
   @Column({
@@ -38,5 +38,5 @@ export class ServicioModel extends Model {
       return valor === null || valor === undefined ? 0 : Number(valor);
     },
   })
-  valor!: number;
+  declare valor: number;
 }

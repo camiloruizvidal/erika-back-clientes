@@ -27,24 +27,24 @@ export class TipoDocumentoModel extends Model {
 
   @AllowNull(false)
   @Column({ type: DataType.STRING(10) })
-  codigo!: string;
+  declare codigo: string;
 
   @AllowNull(false)
   @Column({ field: 'nombre_corto', type: DataType.STRING(50) })
-  nombreCorto!: string;
+  declare nombreCorto: string;
 
   @AllowNull(false)
   @Column({ field: 'nombre_largo', type: DataType.STRING(150) })
-  nombreLargo!: string;
+  declare nombreLargo: string;
 
   @AllowNull(true)
   @Column({ type: DataType.TEXT })
-  descripcion!: string | null;
+  declare descripcion: string | null;
 
   @Default(true)
   @AllowNull(false)
   @Column({ type: DataType.BOOLEAN })
-  activo!: boolean;
+  declare activo: boolean;
 
   @HasMany(() => ClienteModel)
   clientes?: ClienteModel[];

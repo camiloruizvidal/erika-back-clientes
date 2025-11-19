@@ -29,12 +29,12 @@ export class PaqueteServicioModel extends Model {
   @ForeignKey(() => PaqueteModel)
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'paquete_id' })
-  paqueteId!: number;
+  declare paqueteId: number;
 
   @ForeignKey(() => ServicioModel)
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'servicio_id' })
-  servicioId!: number;
+  declare servicioId: number;
 
   @BelongsTo(() => PaqueteModel)
   paquete?: PaqueteModel;

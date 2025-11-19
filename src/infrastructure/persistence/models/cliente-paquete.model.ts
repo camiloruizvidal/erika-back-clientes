@@ -30,24 +30,24 @@ export class ClientePaqueteModel extends Model {
 
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'tenant_id' })
-  tenantId!: number;
+  declare tenantId: number;
 
   @ForeignKey(() => ClienteModel)
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'cliente_id' })
-  clienteId!: number;
+  declare clienteId: number;
 
   @AllowNull(false)
   @Column({ type: DataType.BIGINT, field: 'paquete_original_id' })
-  paqueteOriginalId!: number;
+  declare paqueteOriginalId: number;
 
   @AllowNull(false)
   @Column({ type: DataType.STRING(150), field: 'nombre_paquete' })
-  nombrePaquete!: string;
+  declare nombrePaquete: string;
 
   @AllowNull(true)
   @Column({ type: DataType.STRING(255), field: 'descripcion_paquete' })
-  descripcionPaquete!: string | null;
+  declare descripcionPaquete: string | null;
 
   @AllowNull(false)
   @Column({
@@ -58,7 +58,7 @@ export class ClientePaqueteModel extends Model {
       return valor === null || valor === undefined ? 0 : Number(valor);
     },
   })
-  valorOriginal!: number;
+  declare valorOriginal: number;
 
   @AllowNull(false)
   @Column({
@@ -69,31 +69,31 @@ export class ClientePaqueteModel extends Model {
       return valor === null || valor === undefined ? 0 : Number(valor);
     },
   })
-  valorAcordado!: number;
+  declare valorAcordado: number;
 
   @AllowNull(true)
   @Column({ type: DataType.INTEGER, field: 'dia_cobro' })
-  diaCobro!: number | null;
+  declare diaCobro: number | null;
 
   @AllowNull(true)
   @Column({ type: DataType.INTEGER, field: 'dias_gracia' })
-  diasGracia!: number | null;
+  declare diasGracia: number | null;
 
   @AllowNull(false)
   @Column({ type: DataType.STRING(20), field: 'frecuencia_tipo' })
-  frecuenciaTipo!: string;
+  declare frecuenciaTipo: string;
 
   @AllowNull(true)
   @Column({ type: DataType.INTEGER, field: 'frecuencia_valor' })
-  frecuenciaValor!: number | null;
+  declare frecuenciaValor: number | null;
 
   @AllowNull(false)
   @Column({ type: DataType.DATE, field: 'fecha_inicio' })
-  fechaInicio!: Date;
+  declare fechaInicio: Date;
 
   @AllowNull(true)
   @Column({ type: DataType.DATE, field: 'fecha_fin' })
-  fechaFin!: Date | null;
+  declare fechaFin: Date | null;
 
   @AllowNull(true)
   @Column({
@@ -104,7 +104,7 @@ export class ClientePaqueteModel extends Model {
       return valor === null || valor === undefined ? null : Number(valor);
     },
   })
-  moraPorcentaje!: number | null;
+  declare moraPorcentaje: number | null;
 
   @AllowNull(true)
   @Column({
@@ -115,16 +115,16 @@ export class ClientePaqueteModel extends Model {
       return valor === null || valor === undefined ? null : Number(valor);
     },
   })
-  moraValor!: number | null;
+  declare moraValor: number | null;
 
   @Default('activo')
   @AllowNull(false)
   @Column({ type: DataType.STRING(20) })
-  estado!: string;
+  declare estado: string;
 
   @AllowNull(true)
   @Column({ type: DataType.BIGINT, field: 'creado_usuario_id' })
-  creadoUsuarioId!: number | null;
+  declare creadoUsuarioId: number | null;
 
   @BelongsTo(() => ClienteModel)
   cliente?: ClienteModel;
