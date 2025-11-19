@@ -41,6 +41,8 @@ interface RequestConTenant extends Request {
 @ApiTags('customers')
 @Controller('api/v1/customers')
 export class ClientesController {
+  private readonly logger = new Logger(ClientesController.name);
+
   constructor(
     private readonly clientesService: ClientesService,
     private readonly asignacionesService: AsignacionesService,
@@ -71,7 +73,7 @@ export class ClientesController {
         excludeExtraneousValues: true,
       });
     } catch (error) {
-      Logger.error({ error: JSON.stringify(error) });
+      this.logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
@@ -95,7 +97,7 @@ export class ClientesController {
         excludeExtraneousValues: true,
       });
     } catch (error) {
-      Logger.error({ error: JSON.stringify(error) });
+      this.logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
@@ -118,7 +120,7 @@ export class ClientesController {
         excludeExtraneousValues: true,
       });
     } catch (error) {
-      Logger.error({ error: JSON.stringify(error) });
+      this.logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
@@ -145,7 +147,7 @@ export class ClientesController {
         }),
       );
     } catch (error) {
-      Logger.error({ error: JSON.stringify(error) });
+      this.logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
@@ -174,7 +176,7 @@ export class ClientesController {
         excludeExtraneousValues: true,
       });
     } catch (error) {
-      Logger.error({ error: JSON.stringify(error) });
+      this.logger.error({ error: JSON.stringify(error) });
       this.manejadorError.resolverErrorApi(error);
     }
   }
